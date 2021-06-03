@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <meta charset="UTF-8">
+  <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <title>Title</title>
+
+</head>
+
+<body>
+<div class="container" id="container">
+<nav class="navbar navbar-expand-lg navbar-light">
+  <a class="navbar-brand" href="#">Apli</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="about">About</a>
+      </li>
+    </ul>
+    <form class="d-flex">
+        {% if not user.is_authenticated %}
+      <a href="sign"><button class="btn btn-primary m-1" type="button">Sign Up</button></a>
+      <a href="login"><button class="btn btn-primary m-1" type="button">Sign In</button></a>
+        {% else %}
+        <a href="/main"><button class="btn btn-primary m-1">Welcome : {{request.user.email}}</button></a>
+      <a href="logout"><button class="btn btn-primary m-1" type="button">Logout</button></a>
+{% endif %}
+
+    </form>
+  </div>
+</nav>
+
+  <div class="form-check form-switch" style="margin: 0px; background: #add8e6; padding : 15px 30px 1px 60px; border-radius:10px; width: 120px" >
+    <p id="check"></p>
+  </div>
+    {% for message in messages  %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <strong>Message : </strong> {{ message }}
+          </div>
+      {% endfor %}
+    <form method="post" action="add">
+        {% csrf_token %}
+        <div style="border: 2px solid blue; padding: 10px; display: block">
+              <div class="card-header">
+                  QUESTION: <textarea style="width: 90%" name="text">{{task.val.question}}</textarea>
+              </div>
+            <div class="form-check form-check-inline">
+                </div>
+                <div class=" form-check-inline">
+                  1. <input name="in" id="in" style="width: 97%; height: 30px; margin-top: 10px" value="">
+                  2. <input name="in1" id="in" style="width: 97%; height: 30px; margin-top: 10px" value="">
+                  3. <input name="in2" id="in" style="width: 97%; height: 30px; margin-top: 10px" value="">
+                  4. <input name="in3" id="in" style="width: 97%; height: 30px; margin-top: 10px" value="">
+                </div>
+        </div><br>
+        <button type="submit" class="btn btn-primary" >Add Question</button><br><br></form>
+    </form>
+        <form action="test" method="post">
+            {% csrf_token %}
+            {% if name.each %}
+            <p> All the data has been saved if you edited then you have to hit the Submit button</p>
+    {% for task in name.each %}
+            <br>
+
+        <div style="border: 2px solid blue; padding: 10px; display: block">
+              <div class="card-header">
+                  {{ forloop.counter }}.  <textarea style="width: 90%" name="text">{{task.val.question.0}}</textarea>
+
+                      <input class="form-check-input" name="key" id="inlineRadio{{task.key}}" style="display: none" value="{{task.key}}">
+
+              </div>
+              {% for take in task.val.option %}
+            <div class="form-check form-check-inline">
+            {{ forloop.counter }}.
+                </div>
+                <div class=" form-check-inline">
+                  <input name="in{{forloop.counter}}" id="in" style="width: 120%; height: 30px;" value="{{take.0}}">
+                </div>
+
+               {% endfor %}
+        </div>
+
+    {% endfor %}<br>
+                        <button type="submit" class="btn btn-primary" >submit</button><br><br></form>
+    {% else %}
+    <p> After Adding question will appear here</p>
+    {% endif %}
+    </div>
+</div>
+<hr>
+</body>
+<script>
+
+function ch(){
+    var co = localStorage.getItem("theme");
+    var t =document.getElementById('check');
+    if(co == null){
+      t.innerHTML='<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" onclick="change(true)">  <label class="form-check-label">Dark</label>';
+
+            var v=document.getElementById('container');
+            document.body.style.backgroundColor ="#fff";
+            v.style.color  = "#000";
+      }
+    else{
+      co=localStorage.getItem("theme");
+      if(co =="true"){
+        t.innerHTML='<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" onclick="change(false)" checked>  <label class="form-check-label">Light</label>';
+            var v=document.getElementById('container');
+            document.body.style.backgroundColor ="#aaa";
+            v.style.color  = "#fff";
+       }
+       else{
+           t.innerHTML='<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" onclick="change(true)">  <label class="form-check-label">Dark</label>';
+           var v=document.getElementById('container');
+            document.body.style.backgroundColor ="#fff";
+            v.style.color  = "#000";
+      }
+     }
+    }
+function change(co){
+    localStorage.setItem("theme",co);
+    ch();
+    }
+    ch();
+
+</script>
+</html>
