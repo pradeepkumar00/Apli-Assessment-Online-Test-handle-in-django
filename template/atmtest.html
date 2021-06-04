@@ -49,7 +49,6 @@
       {% endfor %}
         <form action="savetest" method="post">
             {% csrf_token %}
-            {% if access == {{access}} %}
     {% for task in name.each %}
             <br>
 
@@ -74,9 +73,6 @@
 
     {% endfor %}<br>
                         <button type="submit" class="btn btn-primary" >submit</button><br><br></form>
-    {% else %}
-    <p>You have not Access of test attempt</p>
-    {% endif %}
     </div>
 </div>
 <hr>

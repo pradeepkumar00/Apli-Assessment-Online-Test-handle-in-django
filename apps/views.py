@@ -140,9 +140,9 @@ def atmtest(request):
         try:
             for names in name.each():
                 if names.val()['email'] == request.user.username:
-                    access = 'true'
-                    return render(request, 'atmtest.html', {'name': tr, 'access': access})
+                    return render(request, 'atmtest.html', {'name': tr})
         except:
+            print('error')
             messages.error(request, "You have not any test right now :)")
             return redirect(main)
     messages.error(request, "You have not any test right now :)")

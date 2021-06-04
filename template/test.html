@@ -31,6 +31,8 @@
       <a href="sign"><button class="btn btn-primary m-1" type="button">Sign Up</button></a>
       <a href="login"><button class="btn btn-primary m-1" type="button">Sign In</button></a>
         {% else %}
+        <a href="main" class="btn btn-primary m-1">Main Menu</a>
+
         <a href="/main"><button class="btn btn-primary m-1">Welcome : {{request.user.email}}</button></a>
       <a href="logout"><button class="btn btn-primary m-1" type="button">Logout</button></a>
 {% endif %}
